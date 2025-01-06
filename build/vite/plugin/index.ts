@@ -4,6 +4,10 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import legacy from '@vitejs/plugin-legacy'
 import vueSetupExtend from 'vite-plugin-vue-setup-extend'
 
+import { configHtmlPlugin } from './html';
+import { configSvgIconsPlugin } from './svgSprite';
+
+
 
 export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   const {
@@ -17,7 +21,11 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   ]
 
   // @vitejs/plugin-legacy
-  VITE_LEGACY && isBuild && vitePlugins.push(legacy());
+  VITE_LEGACY && isBuild && vitePlugins.push(legacy())
+  // vite-plugin-html
+  vitePlugins.push(configHtmlPlugin(viteEnv, isBuild))
+  // vite-plugin-svg-icons
+  vitePlugins.push(configSvgIconsPlugin())
 
   if (isBuild) {
     // production environment
